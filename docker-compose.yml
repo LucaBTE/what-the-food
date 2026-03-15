@@ -1,0 +1,49 @@
+services:
+  model-init:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command:
+      [
+        "python",
+        "-c",
+        "from transformers import CLIPModel, CLIPProcessor; import os; model_id = os.getenv('MODEL_ID', 'openai/clip-vit-base-patch32'); CLIPModel.from_pretrained(model_id); CLIPProcessor.from_pretrained(model_id)",
+      ]
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      model-init:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5173:80"
