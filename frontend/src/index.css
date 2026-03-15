@@ -1,0 +1,92 @@
+:root {
+  font-family: 'Arial Black', Impact, Haettenschweiler, 'Segoe UI', sans-serif;
+  line-height: 1.45;
+  font-weight: 400;
+  color: #101010;
+  background: #ffe96b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --bg: #ffe96b;
+  --text: #101010;
+  --text-soft: #2f2f2f;
+  --muted: #101010;
+  --panel: #fffdf5;
+  --surface: #ffffff;
+  --surface-strong: #58d4ff;
+  --accent: #ff5a36;
+  --accent-strong: #ff2a00;
+  --lime: #d8ff58;
+  --pink: #ff88d8;
+  --border: #101010;
+  --border-strong: #101010;
+  --shadow: 10px 10px 0 #101010;
+  --shadow-small: 6px 6px 0 #101010;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, transparent 0, transparent 48px, rgb(16 16 16 / 0.08) 48px, rgb(16 16 16 / 0.08) 50px, transparent 50px),
+    linear-gradient(transparent 0, transparent 48px, rgb(16 16 16 / 0.08) 48px, rgb(16 16 16 / 0.08) 50px, transparent 50px),
+    var(--bg);
+  background-size: 50px 50px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Arial Black', Impact, Haettenschweiler, sans-serif;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.9rem 0 0;
+  font-size: clamp(3rem, 7vw, 6rem);
+  max-width: 10ch;
+}
+
+h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+p {
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
