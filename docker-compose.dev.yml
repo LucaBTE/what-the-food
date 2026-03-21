@@ -10,7 +10,8 @@ services:
         "from transformers import CLIPModel, CLIPProcessor; import os; model_id = os.getenv('MODEL_ID', 'openai/clip-vit-base-patch32'); CLIPModel.from_pretrained(model_id); CLIPProcessor.from_pretrained(model_id)",
       ]
     volumes:
-      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+      - huggingface_data:/root/.cache/huggingface
+
 
   backend:
     build:
@@ -25,7 +26,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./data:/app/data
-      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+      - huggingface_data:/root/.cache/huggingface
     healthcheck:
       test:
         [
@@ -56,3 +57,4 @@ services:
 
 volumes:
   frontend-node-modules:
+  huggingface_data:
