@@ -90,6 +90,7 @@ class RecipeService:
             vision_outputs = self.model.vision_model(**inputs)
             image_features = self.model.visual_projection(vision_outputs.pooler_output)
             image_features = F.normalize(image_features, p=2, dim=-1).cpu()
+            image_similarities = (self.saved_image_features @ image_features.T).squeeze(1)
 
             # If dish_name is provided by the user
             if(dish_name):
@@ -98,7 +99,6 @@ class RecipeService:
                 text_features = self.model.text_projection(text_outputs.pooler_output)
                 text_features = F.normalize(text_features, p=2, dim=-1).cpu()
 
-                image_similarities = (self.saved_image_features @ image_features.T).squeeze(1)
                 text_similarities  = (self.saved_text_features @ text_features.T).squeeze(1)
 
                 if(text_similarities.max().item() >= 0.30): # If the text is relevant enough
@@ -107,7 +107,7 @@ class RecipeService:
                 else:
                     similarities = image_similarities
             else:
-                similarities = (self.saved_image_features @ image_features.T).squeeze(1)
+               similarities = image_similarities
         best_idx = similarities.argmax().item()
         row = self.df.iloc[best_idx]
 
