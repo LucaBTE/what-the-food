@@ -449,3 +449,35 @@
     width: 100%;
   }
 }
+.dish-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  }
+
+.dish-name-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  }
+
+.dish-name-input:focus {
+  border-color: var(--accent);
+  }
+
+.dish-name-input::placeholder {
+  color: var(--text-muted);
+  }
+
+  .dish-name-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

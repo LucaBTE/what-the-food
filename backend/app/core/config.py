@@ -30,6 +30,10 @@ class Settings:
     @property
     def image_embeddings_path(self) -> Path:
         return self.data_dir / "image_embeddings.pt"
+    
+    @property
+    def text_embeddings_path(self) -> Path: 
+        return self.data_dir / "text_embeddings.pt"
 
 
 settings = Settings()

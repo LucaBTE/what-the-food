@@ -30,6 +30,7 @@ function App() {
   const [isDragging, setIsDragging] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [dishName, setDishName] = useState('')
 
   useEffect(() => {
     if (!selectedFile) {
@@ -78,6 +79,9 @@ function App() {
 
     const formData = new FormData()
     formData.append('file', selectedFile)
+    if(dishName.trim().length > 0) {
+      formData.append('dish_name', dishName.trim())
+    }
 
     setIsLoading(true)
     setError(null)
@@ -113,6 +117,7 @@ function App() {
     setSelectedFile(null)
     setResult(null)
     setError(null)
+    setDishName('')  
 
     if (inputRef.current) {
       inputRef.current.value = ''
@@ -202,6 +207,19 @@ function App() {
               Reset
             </button>
           </div>
+
+          <div className="dish-name-wrapper">
+            <p className="meta-label">If you already know the dish name, type it here:</p>
+            <input
+              type="text"
+              className="dish-name-input"
+              value={dishName}
+              onChange={(e) => setDishName(e.target.value)}
+              disabled={!selectedFile} 
+            />
+          </div>
+
+          {error ? <p className="status-message error">{error}</p> : null}
 
           {error ? <p className="status-message error">{error}</p> : null}
           {!error && isLoading ? <p className="status-message">The backend is analyzing your image...</p> : null}
