@@ -126,3 +126,24 @@ what-the-food/
 ├── docker-compose.yml
 └── docker-compose.dev.yml
 ```
+
+
+## TESTS
+ 
+Run all the backend functions tests:
+
+```bash
+docker compose -f docker-compose.dev.yml exec backend pytest -v
+```
+
+Run a single backend test file:
+
+```bash
+docker compose -f docker-compose.dev.yml exec backend pytest tests/test_health.py -v
+```
+```bash
+docker compose -f docker-compose.dev.yml exec backend pytest tests/test_recipe_service.py -v
+```
+```bash
+docker compose -f docker-compose.dev.yml exec backend pytest tests/test_recipes_api.py -v
+```
