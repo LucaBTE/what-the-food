@@ -9,6 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY backend/app/requirements.txt /app/backend/app/requirements.txt
+COPY backend/app/requirements-dev.txt /app/backend/app/requirements-dev.txt
+
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gawk && \
@@ -17,7 +19,9 @@ RUN apt-get update && \
 RUN pip install --upgrade pip && \
     awk '!/^torch==/' /app/backend/app/requirements.txt > /tmp/requirements-no-torch.txt && \
     pip install -r /tmp/requirements-no-torch.txt && \
-    pip install --index-url https://download.pytorch.org/whl/cpu torch==2.8.0
+    pip install --index-url https://download.pytorch.org/whl/cpu torch==2.8.0 && \
+    pip install -r /app/backend/app/requirements-dev.txt
+
 
 COPY backend /app/backend
 COPY data /app/data
