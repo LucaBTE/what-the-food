@@ -25,10 +25,14 @@ services:
       model-init:
         condition: service_completed_successfully
     ports:
-      - "8000:8000"
+    - "8000:8000"
+    - "5000:5000"
+
     volumes:
       - ./backend:/app/backend
       - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./mlruns:/app/mlruns
       - huggingface_data:/root/.cache/huggingface
     healthcheck:
       test:
