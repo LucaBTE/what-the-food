@@ -51,7 +51,7 @@ class RecipeService:
             return torch.load(settings.text_embeddings_path, map_location="cpu")
 
         titles = self.df["Title"].astype(str).tolist()
-        batch_size = 128
+        batch_size = settings.text_embedding_batch_size
         all_text_features = []
 
         self.model.eval()
@@ -101,9 +101,9 @@ class RecipeService:
 
                 text_similarities  = (self.saved_text_features @ text_features.T).squeeze(1)
 
-                if(text_similarities.max().item() >= 0.30): # If the text is relevant enough
+                if(text_similarities.max().item() >= settings.text_threshold): # If the text is relevant enough
                     # img weights 0.8, text 0.2
-                   similarities = 0.8 * image_similarities + 0.2 * text_similarities   
+                   similarities = settings.image_weight * image_similarities + settings.text_weight * text_similarities   
                 else:
                     similarities = image_similarities
             else:

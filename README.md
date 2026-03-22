@@ -106,6 +106,40 @@ Inspect logs:
 docker compose -f docker-compose.dev.yml logs -f
 ```
 
+### MLflow experiment tracking
+
+Run the offline experiment tracking pipeline:
+
+```bash
+docker compose -f docker-compose.dev.yml exec backend sh -lc "cd /app/backend && PYTHONPATH=/app/backend python scripts/run_experiments.py"
+```
+
+This run logs:
+
+- `model_id`
+- dataset fingerprint (`SHA256`)
+- text threshold
+- image/text weights
+- cleaned dataset statistics
+- generated embeddings and run summary as artifacts
+
+Generated outputs are stored locally in:
+
+- `./mlruns/`
+- `./artifacts/mlflow/`
+
+Start the MLflow UI:
+
+```bash
+docker compose -f docker-compose.dev.yml exec backend sh -lc "mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri /app/mlruns"
+```
+
+Then open:
+
+```text
+http://localhost:5000
+```
+
 ## API
 
 Main prediction endpoint:

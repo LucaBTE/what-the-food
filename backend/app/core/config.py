@@ -11,6 +11,15 @@ class Settings:
     model_id: str = "openai/clip-vit-base-patch32"
     device: str = "cpu"
 
+    text_threshold: float = 0.30
+    image_weight: float = 0.8
+    text_weight: float = 0.2
+    text_embedding_batch_size: int = 128
+    mlflow_tracking_uri: str = "file:/app/mlruns"
+    mlflow_experiment_name: str = "what-the-food-retrieval"
+
+
+
     @property
     def backend_dir(self) -> Path:
         return Path(__file__).resolve().parents[2]
@@ -24,6 +33,14 @@ class Settings:
         return self.project_dir / "data"
 
     @property
+    def artifacts_dir(self) -> Path:
+        return self.project_dir / "artifacts"
+
+    @property
+    def mlruns_dir(self) -> Path:
+        return self.project_dir / "mlruns"
+
+    @property
     def dataset_path(self) -> Path:
         return self.data_dir / "dataset.csv"
 
@@ -34,6 +51,8 @@ class Settings:
     @property
     def text_embeddings_path(self) -> Path: 
         return self.data_dir / "text_embeddings.pt"
+    
+
 
 
 settings = Settings()
