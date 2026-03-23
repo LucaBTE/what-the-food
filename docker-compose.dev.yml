@@ -25,8 +25,7 @@ services:
       model-init:
         condition: service_completed_successfully
     ports:
-    - "8000:8000"
-    - "5000:5000"
+      - "8000:8000"
 
     volumes:
       - ./backend:/app/backend
@@ -46,6 +45,25 @@ services:
       timeout: 10s
       retries: 10
       start_period: 120s
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    working_dir: /app/backend
+    command: mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri /app/mlruns
+    environment:
+      PYTHONPATH: /app/backend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app/backend
+      - ./artifacts:/app/artifacts
+      - ./mlruns:/app/mlruns
+      - huggingface_data:/root/.cache/huggingface
 
   frontend:
     image: node:22-alpine

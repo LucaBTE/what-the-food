@@ -33,6 +33,7 @@ Development mode runs:
 
 - the frontend with the Vite dev server
 - the backend with Uvicorn `--reload`
+- the MLflow UI on port `5000`
 - a model warmup service that prepares the CLIP model before backend startup
 
 First run or after infrastructure changes:
@@ -131,7 +132,7 @@ Generated outputs are stored locally in:
 Start the MLflow UI:
 
 ```bash
-docker compose -f docker-compose.dev.yml exec backend sh -lc "mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri /app/mlruns"
+docker compose -f docker-compose.dev.yml up -d mlflow
 ```
 
 Then open:
