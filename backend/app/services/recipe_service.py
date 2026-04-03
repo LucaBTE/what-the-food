@@ -32,11 +32,22 @@ class RecipeService:
         self.df = self._load_dataset()
         self.model = CLIPModel.from_pretrained(self.model_id).to(self.device)
         self.processor = CLIPProcessor.from_pretrained(self.model_id)
+        
+        if not settings.image_embeddings_path.exists():
+            raise FileNotFoundError(f"Missing image embeddings at {settings.image_embeddings_path}")
+        if not settings.text_embeddings_path.exists():
+            raise FileNotFoundError(f"Missing text embeddings at {settings.text_embeddings_path}. Run build_embeddings.py first.")
+
         self.saved_image_features = torch.load(
             settings.image_embeddings_path,
             map_location="cpu",
         )
-        self.saved_text_features = self._load_or_build_text_embeddings()  
+        
+        # loading pre-computed embeddings 
+        self.saved_text_features = torch.load(
+            settings.text_embeddings_path,
+            map_location="cpu",
+        )
 
         if len(self.df) != self.saved_image_features.shape[0]:
             raise RuntimeError(
@@ -45,35 +56,6 @@ class RecipeService:
             )
 
         self._is_loaded = True
-
-    def _load_or_build_text_embeddings(self) -> torch.Tensor:
-        if settings.text_embeddings_path.exists():
-            return torch.load(settings.text_embeddings_path, map_location="cpu")
-
-        titles = self.df["Title"].astype(str).tolist()
-        batch_size = settings.text_embedding_batch_size
-        all_text_features = []
-
-        self.model.eval()
-        with torch.no_grad():
-            for i in range(0, len(titles), batch_size):
-                batch = titles[i:i + batch_size]
-                inputs = self.processor(
-                    text=batch,
-                    return_tensors="pt",
-                    padding=True,
-                    truncation=True,
-                    max_length=77,
-                ).to(self.device)
-
-                text_outputs = self.model.text_model(**inputs)
-                text_features = self.model.text_projection(text_outputs.pooler_output)
-                text_features = F.normalize(text_features, p=2, dim=-1)
-                all_text_features.append(text_features.cpu())
-
-        saved = torch.cat(all_text_features, dim=0)
-        torch.save(saved, settings.text_embeddings_path)
-        return saved
 
     # dish_name is completely optional. Its purpose is to "help" the model.
     def identify_recipe_via_image(self, image_path: str | Path, dish_name: str | None = None) -> RecipePrediction:
@@ -155,6 +137,5 @@ class RecipeService:
             return [str(item) for item in parsed]
 
         return [str(parsed)]
-
 
 recipe_service = RecipeService()

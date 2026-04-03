@@ -116,7 +116,11 @@ def main() -> None:
 
         text_embeddings_cached = settings.text_embeddings_path.exists()
         build_start = time.time()
-        text_embeddings = service._load_or_build_text_embeddings()
+        
+        if not text_embeddings_cached:
+            raise FileNotFoundError("Text embeddings must be built via build_embeddings.py first.")
+        text_embeddings = torch.load(settings.text_embeddings_path, map_location="cpu")
+        
         build_seconds = time.time() - build_start
 
         image_embedding_shape: tuple[int, ...] | None = None
