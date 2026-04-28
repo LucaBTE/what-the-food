@@ -1,28 +1,18 @@
 :root {
-  font-family: 'Arial Black', Impact, Haettenschweiler, 'Segoe UI', sans-serif;
-  line-height: 1.45;
-  font-weight: 400;
-  color: #101010;
-  background: #ffe96b;
+  color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --bg: #ffe96b;
-  --text: #101010;
-  --text-soft: #2f2f2f;
-  --muted: #101010;
-  --panel: #fffdf5;
-  --surface: #ffffff;
-  --surface-strong: #58d4ff;
-  --accent: #ff5a36;
-  --accent-strong: #ff2a00;
-  --lime: #d8ff58;
-  --pink: #ff88d8;
-  --border: #101010;
-  --border-strong: #101010;
-  --shadow: 10px 10px 0 #101010;
-  --shadow-small: 6px 6px 0 #101010;
+  --font-display: Arial, "Helvetica Neue", Helvetica, "Segoe UI", sans-serif;
+  --font-body: Arial, "Helvetica Neue", Helvetica, "Segoe UI", sans-serif;
+  --bg: #f4ede4;
+  --bg-strong: #efe5d8;
+  --surface: #fffaf4;
+  --text: #241f1a;
+  --muted: #6c6257;
+  --accent: #1d5c4d;
+  --line: rgb(43 36 30 / 0.1);
 }
 
 * {
@@ -38,10 +28,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(90deg, transparent 0, transparent 48px, rgb(16 16 16 / 0.08) 48px, rgb(16 16 16 / 0.08) 50px, transparent 50px),
-    linear-gradient(transparent 0, transparent 48px, rgb(16 16 16 / 0.08) 48px, rgb(16 16 16 / 0.08) 50px, transparent 50px),
-    var(--bg);
-  background-size: 50px 50px;
+    radial-gradient(circle at top left, rgb(255 255 255 / 0.8), transparent 30%),
+    radial-gradient(circle at bottom right, rgb(29 92 77 / 0.08), transparent 26%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-strong) 100%);
+  color: var(--text);
+  font-family: var(--font-body);
 }
 
 button,
@@ -63,24 +54,28 @@ img {
 h1,
 h2,
 h3 {
-  font-family: 'Arial Black', Impact, Haettenschweiler, sans-serif;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--text);
 }
 
 h1 {
-  margin: 0.9rem 0 0;
-  font-size: clamp(3rem, 7vw, 6rem);
-  max-width: 10ch;
+  margin-top: 14px;
+  max-width: 11ch;
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  line-height: 0.94;
 }
 
 h2 {
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  line-height: 1;
 }
 
 h3 {
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 0.96;
 }
 
 p {

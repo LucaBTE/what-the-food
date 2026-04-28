@@ -89,16 +89,22 @@ Start production-like environment:
 docker compose up -d
 ```
 
-Stop the running environment:
-
-```bash
-docker compose -f docker-compose.dev.yml stop
-```
-
-Remove the development environment:
+Stop dev mode:
 
 ```bash
 docker compose -f docker-compose.dev.yml down
+```
+
+## Stop everything
+
+```bash
+docker compose down
+```
+
+## Stop and delete volumes (full reset)
+
+```bash
+docker compose down -v
 ```
 
 Inspect logs:

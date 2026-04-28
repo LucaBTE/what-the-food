@@ -50,6 +50,11 @@ class Settings:
         return Path(path) if path else (self.data_dir / "dataset.csv")
 
     @property
+    def food_images_dir(self) -> Path:
+        dir_path = os.getenv("FOOD_IMAGES_DIR")
+        return Path(dir_path) if dir_path else (self.data_dir / "Food Images")
+
+    @property
     def image_embeddings_path(self) -> Path:
         path = os.getenv("IMAGE_EMBEDDINGS_PATH")
         return Path(path) if path else (self.data_dir / "image_embeddings.pt")

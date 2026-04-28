@@ -6,3 +6,4 @@ class RecipePrediction(BaseModel):
     ingredients: list[str]
     instructions: str
     similarity: float
+    reference_image_name: str | None = None

@@ -98,6 +98,7 @@ class RecipeService:
             ingredients=self._parse_ingredients(row["Cleaned_Ingredients"]),
             instructions=str(row["Instructions"]),
             similarity=round(float(similarities[best_idx].item()), 3),
+            reference_image_name=str(row["Image_Name"]) if pd.notna(row["Image_Name"]) else None,
         )
 
     def _load_dataset(self) -> pd.DataFrame:
